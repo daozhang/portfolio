@@ -1,0 +1,168 @@
+# Implementation Plan
+
+- [x] 1. Set up project structure and core dependencies
+  - Initialize NestJS backend with TypeScript configuration
+  - Set up React frontend with TypeScript and required dependencies
+  - Configure PostgreSQL database connection with TypeORM
+  - Set up Firebase Storage configuration for media files
+  - Configure environment variables for development and production
+  - _Requirements: All requirements depend on proper project setup_
+
+- [x] 2. Implement authentication system with invite codes
+  - [x] 2.1 Create User entity and database schema
+    - Define User entity with TypeORM decorators
+    - Set up database migrations for users table
+    - _Requirements: 1.1, 1.3_
+  - [x] 2.2 Create InviteCode entity and management system
+    - Define InviteCode entity with relationships
+    - Implement invite code generation logic (6-digit codes)
+    - Create database migrations for invite_codes table
+    - _Requirements: 10.1, 10.2, 1.2_
+  - [x] 2.3 Implement authentication service with bcrypt
+    - Set up Passport.js local strategy
+    - Implement password hashing with bcrypt
+    - Create JWT token generation and validation
+    - _Requirements: 1.1, 2.1, 2.3_
+  - [x] 2.4 Create authentication controllers and routes
+    - Implement registration endpoint with invite code validation
+    - Create login/logout endpoints
+    - Add authentication guards and decorators
+    - _Requirements: 1.1, 1.4, 1.5, 2.1, 2.2_
+  - [x] 2.5 Write authentication tests
+    - Unit tests for auth service methods
+    - Integration tests for auth endpoints
+    - _Requirements: 1.1, 2.1_
+
+- [ ] 3. Build user profile management
+  - [ ] 3.1 Implement profile service and controller
+    - Create profile update endpoints
+    - Add avatar upload handling with Firebase Storage
+    - Implement image optimization for avatars
+    - _Requirements: 3.1, 3.2, 3.3, 3.4_
+  - [ ] 3.2 Create React profile management components
+    - Build profile settings form with validation
+    - Implement avatar upload with preview
+    - Add profile display components
+    - _Requirements: 3.1, 3.2, 3.3, 3.4_
+
+- [ ] 4. Implement media file management system
+  - [ ] 4.1 Create MediaFile entity and service
+    - Define MediaFile entity with metadata storage
+    - Set up database migrations for media_files table
+    - _Requirements: 4.4, 5.1_
+  - [ ] 4.2 Build media upload service with Firebase Storage
+    - Implement file upload to Firebase Storage
+    - Add image optimization with Sharp (multiple sizes)
+    - Create media file metadata extraction
+    - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
+  - [ ] 4.3 Create media management endpoints
+    - Build upload, delete, and retrieve endpoints
+    - Add project details management for media files
+    - Implement media file listing with pagination
+    - _Requirements: 4.1, 4.4, 4.5, 5.1, 5.2, 5.4_
+  - [ ] 4.4 Build React media upload components
+    - Create drag-and-drop file upload interface
+    - Add project details form (title, description, tags, year)
+    - Implement media gallery view with project info
+    - _Requirements: 4.1, 5.1, 5.2, 5.3, 5.4_
+
+- [ ] 5. Create block system architecture
+  - [ ] 5.1 Define block data interfaces and types
+    - Create TypeScript interfaces for all 8 block types
+    - Define block data validation schemas
+    - _Requirements: 6.1, 6.4_
+  - [ ] 5.2 Build React block components
+    - Implement TitleBlock component with heading levels
+    - Create RichTextBlock with HTML content rendering
+    - Build ListBlock for ordered/unordered lists
+    - Implement ImagesBlock with layout options
+    - Create ResumeBlock for structured CV sections
+    - Build CarouselBlock for image slideshows
+    - Implement DividerBlock for visual separation
+    - Create LinkBlock for buttons and text links
+    - _Requirements: 6.1, 6.5_
+  - [ ] 5.3 Implement block editor interfaces
+    - Create edit modes for each block type
+    - Add block configuration panels
+    - Implement block data validation
+    - _Requirements: 6.1, 6.5_
+
+- [ ] 6. Build drag-and-drop layout builder
+  - [ ] 6.1 Set up React DND infrastructure
+    - Configure React DND providers and contexts
+    - Create drag source and drop target components
+    - _Requirements: 6.2, 6.3_
+  - [ ] 6.2 Implement portfolio builder interface
+    - Create main builder layout with block palette
+    - Add drag-and-drop zones for block placement
+    - Implement block reordering functionality
+    - _Requirements: 6.2, 6.3, 6.5_
+  - [ ] 6.3 Add real-time preview functionality
+    - Create preview mode toggle
+    - Implement live preview updates during editing
+    - Add mobile/desktop viewport switching
+    - _Requirements: 6.5, 8.1, 8.2_
+
+- [ ] 7. Implement portfolio and template system
+  - [ ] 7.1 Create Portfolio entity and service
+    - Define Portfolio entity with template and blocks
+    - Set up database migrations for portfolios table
+    - Implement portfolio CRUD operations
+    - _Requirements: 6.4, 7.3_
+  - [ ] 7.2 Build template system
+    - Create template components (Gallery, About, Contact)
+    - Implement template selection interface
+    - Add template switching functionality
+    - _Requirements: 7.1, 7.2, 7.4_
+  - [ ] 7.3 Create portfolio management endpoints
+    - Build portfolio creation and update APIs
+    - Add portfolio publishing functionality
+    - Implement public portfolio access endpoints
+    - _Requirements: 6.4, 8.3, 8.4_
+
+- [ ] 8. Build admin panel for invite code management
+  - [ ] 8.1 Create admin service and controllers
+    - Implement admin-only endpoints with role guards
+    - Add invite code generation and management APIs
+    - Create user statistics and management endpoints
+    - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 11.1, 11.2, 11.3, 11.4_
+  - [ ] 8.2 Build React admin panel components
+    - Create admin dashboard with user statistics
+    - Implement invite code management interface
+    - Add invite code generation and deactivation features
+    - Build user management and role assignment interface
+    - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 11.1, 11.2, 11.3, 11.4_
+
+- [ ] 9. Implement portfolio sharing and mobile optimization
+  - [ ] 9.1 Create public portfolio rendering
+    - Build public portfolio view components
+    - Implement SEO meta tags for social sharing
+    - Add WeChat-compatible meta tags and Open Graph data
+    - _Requirements: 8.4, 9.3_
+  - [ ] 9.2 Optimize for mobile and WeChat sharing
+    - Ensure responsive design for all components
+    - Optimize loading performance for mobile networks
+    - Test WeChat link preview functionality
+    - _Requirements: 9.1, 9.2, 9.4_
+  - [ ] 9.3 Add portfolio publishing workflow
+    - Create publish/unpublish functionality
+    - Generate unique public URLs for portfolios
+    - Implement portfolio sharing interface
+    - _Requirements: 8.3, 8.4_
+
+- [ ] 10. Final integration and deployment setup
+  - [ ] 10.1 Set up production environment configuration
+    - Configure production database settings
+    - Set up Firebase Storage for production
+    - Add environment-specific configurations
+    - _Requirements: All requirements for production deployment_
+  - [ ] 10.2 Implement error handling and logging
+    - Add global error handling middleware
+    - Implement structured logging for debugging
+    - Create user-friendly error messages
+    - _Requirements: All requirements for robust error handling_
+  - [ ] 10.3 Add security middleware and validation
+    - Implement rate limiting on all endpoints
+    - Add input validation and sanitization
+    - Configure CORS and security headers
+    - _Requirements: All requirements for security compliance_

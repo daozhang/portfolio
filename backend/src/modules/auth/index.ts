@@ -1,0 +1,12 @@
+export { AuthModule } from './auth.module';
+export { AuthService } from './auth.service';
+export { AuthController } from './auth.controller';
+export { RegisterDto } from './dto/register.dto';
+export { LoginDto } from './dto/login.dto';
+export { LocalStrategy } from './strategies/local.strategy';
+export { JwtStrategy } from './strategies/jwt.strategy';
+export { LocalAuthGuard } from './guards/local-auth.guard';
+export { JwtAuthGuard } from './guards/jwt-auth.guard';
+export { RolesGuard } from './guards/roles.guard';
+export { CurrentUser } from './decorators/current-user.decorator';
+export { Roles } from './decorators/roles.decorator';
