@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { TitleData } from '../../types';
+import { TitleData } from '../../types/blocks';
 
 interface TitleBlockProps {
   data: TitleData;
@@ -62,7 +62,6 @@ const Title = styled.h1<{ level: number }>`
 
 export const TitleBlock: React.FC<TitleBlockProps> = ({ 
   data, 
-  isEditing = false, 
   className 
 }) => {
   const HeadingTag = `h${data.level}` as keyof JSX.IntrinsicElements;

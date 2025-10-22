@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { LinkData } from '../../types';
+import { LinkData } from '../../types/blocks';
 
 interface LinkBlockProps {
   data: LinkData;

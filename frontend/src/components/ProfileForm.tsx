@@ -231,8 +231,8 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
           maxLength={maxNameLength}
           disabled={isLoading}
         />
-        <CharacterCount isNearLimit={formData.name.length > maxNameLength * 0.8}>
-          {formData.name.length}/{maxNameLength}
+        <CharacterCount isNearLimit={(formData.name?.length || 0) > maxNameLength * 0.8}>
+          {formData.name?.length || 0}/{maxNameLength}
         </CharacterCount>
       </FormGroup>
 
@@ -246,8 +246,8 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
           maxLength={maxBioLength}
           disabled={isLoading}
         />
-        <CharacterCount isNearLimit={formData.bio.length > maxBioLength * 0.8}>
-          {formData.bio.length}/{maxBioLength}
+        <CharacterCount isNearLimit={(formData.bio?.length || 0) > maxBioLength * 0.8}>
+          {formData.bio?.length || 0}/{maxBioLength}
         </CharacterCount>
       </FormGroup>
 

@@ -2,3 +2,4 @@
 
 export * from './blocks';
 export * from './validation';
+export * from './dnd';

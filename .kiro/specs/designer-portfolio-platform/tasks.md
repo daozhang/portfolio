@@ -113,17 +113,17 @@
     - Implement block data validation
     - _Requirements: 6.1, 6.5_
 
-- [ ] 7. Build drag-and-drop layout builder
-  - [ ] 7.1 Set up React DND infrastructure
+- [x] 7. Build drag-and-drop layout builder
+  - [x] 7.1 Set up React DND infrastructure
     - Configure React DND providers and contexts
     - Create drag source and drop target components
     - _Requirements: 6.2, 6.3_
-  - [ ] 7.2 Implement portfolio builder interface
+  - [x] 7.2 Implement portfolio builder interface
     - Create main builder layout with block palette
     - Add drag-and-drop zones for block placement
     - Implement block reordering functionality
     - _Requirements: 6.2, 6.3, 6.5_
-  - [ ] 7.3 Add real-time preview functionality
+  - [x] 7.3 Add real-time preview functionality
     - Create preview mode toggle
     - Implement live preview updates during editing
     - Add mobile/desktop viewport switching

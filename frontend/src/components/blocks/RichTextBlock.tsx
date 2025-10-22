@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { RichTextData } from '../../types';
+import { RichTextData } from '../../types/blocks';
 
 interface RichTextBlockProps {
   data: RichTextData;
@@ -150,7 +150,6 @@ const RichTextContainer = styled.div`
 
 export const RichTextBlock: React.FC<RichTextBlockProps> = ({ 
   data, 
-  isEditing = false, 
   className 
 }) => {
   return (

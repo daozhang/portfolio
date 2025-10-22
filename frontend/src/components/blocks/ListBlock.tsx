@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ListData } from '../../types';
+import { ListData } from '../../types/blocks';
 
 interface ListBlockProps {
   data: ListData;
@@ -49,20 +49,27 @@ const ListItem = styled.li`
 
 export const ListBlock: React.FC<ListBlockProps> = ({ 
   data, 
-  isEditing = false, 
   className 
 }) => {
-  const ListComponent = data.type === 'ordered' ? OrderedList : List;
-
   return (
     <ListContainer className={className}>
-      <ListComponent listType={data.type}>
-        {data.items.map((item, index) => (
-          <ListItem key={index}>
-            {item}
-          </ListItem>
-        ))}
-      </ListComponent>
+      {data.type === 'ordered' ? (
+        <OrderedList>
+          {data.items.map((item, index) => (
+            <ListItem key={index}>
+              {item}
+            </ListItem>
+          ))}
+        </OrderedList>
+      ) : (
+        <List listType={data.type}>
+          {data.items.map((item, index) => (
+            <ListItem key={index}>
+              {item}
+            </ListItem>
+          ))}
+        </List>
+      )}
     </ListContainer>
   );
 };

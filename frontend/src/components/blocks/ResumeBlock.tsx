@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ResumeData } from '../../types';
+import { ResumeData } from '../../types/blocks';
 
 interface ResumeBlockProps {
   data: ResumeData;

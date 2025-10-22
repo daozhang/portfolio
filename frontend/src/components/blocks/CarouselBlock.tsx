@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { CarouselData } from '../../types';
+import { CarouselData } from '../../types/blocks';
 
 interface MediaFile {
   id: string;

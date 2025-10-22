@@ -1,6 +1,8 @@
 
 import { Routes, Route } from 'react-router-dom'
 import styled from 'styled-components'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import { AuthProvider } from './contexts/AuthContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { Layout } from './components/Layout'
@@ -25,8 +27,9 @@ const AppContainer = styled.div`
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContainer>
+    <DndProvider backend={HTML5Backend}>
+      <AuthProvider>
+        <AppContainer>
         <Routes>
           {/* Public routes - no layout */}
           <Route path="/" element={<LandingPage />} />
@@ -107,8 +110,9 @@ function App() {
             } 
           />
         </Routes>
-      </AppContainer>
-    </AuthProvider>
+        </AppContainer>
+      </AuthProvider>
+    </DndProvider>
   )
 }
 

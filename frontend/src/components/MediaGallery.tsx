@@ -208,7 +208,7 @@ export const MediaGallery: React.FC<MediaGalleryProps> = ({
   selectable = false,
   className,
 }) => {
-  const { getMediaFiles, deleteMediaFile, loading, error } = useMedia();
+  const { getMediaFiles, deleteMediaFile, loading } = useMedia();
   const [mediaFiles, setMediaFiles] = useState<MediaFile[]>([]);
   const [pagination, setPagination] = useState({
     page: 1,

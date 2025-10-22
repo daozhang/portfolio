@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DividerData } from '../../types';
+import { DividerData } from '../../types/blocks';
 
 interface DividerBlockProps {
   data: DividerData;
@@ -53,50 +53,6 @@ const Divider = styled.hr<{
   }}
 `;
 
-const DecorativeDivider = styled.div<{ 
-  dividerStyle: string; 
-  thickness: number; 
-  color?: string; 
-}>`
-  position: relative;
-  width: 100%;
-  height: ${props => props.thickness}px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: ${props => props.thickness}px;
-    background-color: ${props => props.color || props.theme.colors.border};
-    
-    ${props => {
-      switch (props.dividerStyle) {
-        case 'dashed':
-          return `
-            background: none;
-            border-top: ${props.thickness}px dashed ${props.color || props.theme.colors.border};
-            height: 0;
-          `;
-        case 'dotted':
-          return `
-            background: none;
-            border-top: ${props.thickness}px dotted ${props.color || props.theme.colors.border};
-            height: 0;
-          `;
-        case 'solid':
-        default:
-          return `
-            background-color: ${props.color || props.theme.colors.border};
-          `;
-      }
-    }}
-  }
-`;
-
 const GradientDivider = styled.div<{ thickness: number; color?: string }>`
   width: 100%;
   height: ${props => props.thickness}px;
@@ -107,35 +63,6 @@ const GradientDivider = styled.div<{ thickness: number; color?: string }>`
     ${props => props.color || props.theme.colors.border} 80%,
     transparent 100%
   );
-`;
-
-const WaveDivider = styled.div<{ thickness: number; color?: string }>`
-  width: 100%;
-  height: ${props => Math.max(props.thickness * 2, 20)}px;
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: -50%;
-    width: 200%;
-    height: ${props => props.thickness}px;
-    background: ${props => props.color || props.theme.colors.border};
-    transform: translateY(-50%);
-    border-radius: ${props => props.thickness}px;
-    animation: wave 3s ease-in-out infinite;
-  }
-  
-  @keyframes wave {
-    0%, 100% {
-      transform: translateY(-50%) translateX(0) scaleX(1);
-    }
-    50% {
-      transform: translateY(-50%) translateX(-10px) scaleX(0.95);
-    }
-  }
 `;
 
 export const DividerBlock: React.FC<DividerBlockProps> = ({ 

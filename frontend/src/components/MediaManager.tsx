@@ -54,9 +54,9 @@ const SuccessMessage = styled.div`
 `;
 
 const ErrorMessage = styled.div`
-  background-color: ${props => props.theme.colors.error}10;
-  border: 1px solid ${props => props.theme.colors.error}30;
-  color: ${props => props.theme.colors.error};
+  background-color: ${props => props.theme.colors.danger}10;
+  border: 1px solid ${props => props.theme.colors.danger}30;
+  color: ${props => props.theme.colors.danger};
   padding: 1rem;
   border-radius: 4px;
   margin-bottom: 1rem;
@@ -74,7 +74,7 @@ export const MediaManager: React.FC<MediaManagerProps> = ({
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [refreshGallery, setRefreshGallery] = useState(0);
 
-  const handleUploadSuccess = (mediaFile: MediaFile) => {
+  const handleUploadSuccess = (_mediaFile: MediaFile) => {
     setMessage({ type: 'success', text: 'Media file uploaded successfully!' });
     setRefreshGallery(prev => prev + 1);
     
@@ -100,7 +100,7 @@ export const MediaManager: React.FC<MediaManagerProps> = ({
     }, 5000);
   };
 
-  const handleMediaDelete = (mediaId: string) => {
+  const handleMediaDelete = (_mediaId: string) => {
     setMessage({ type: 'success', text: 'Media file deleted successfully!' });
     setRefreshGallery(prev => prev + 1);
     

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ImagesData } from '../../types';
+import { ImagesData } from '../../types/blocks';
 
 interface MediaFile {
   id: string;
@@ -198,7 +198,7 @@ export const ImagesBlock: React.FC<ImagesBlockProps> = ({
   }
 
   const renderImages = () => {
-    const imageElements = images.map((image, index) => (
+    const imageElements = images.map((image) => (
       <ImageWrapper key={image.id} layout={data.layout}>
         <Image
           src={image.urls.desktop}

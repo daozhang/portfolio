@@ -62,7 +62,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         id: '1',
         email,
         name: 'Test User',
-        role: 'artist'
+        role: 'artist',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       };
       setUser(mockUser);
       localStorage.setItem('authToken', 'mock-token');
