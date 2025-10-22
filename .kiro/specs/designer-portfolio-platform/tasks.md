@@ -59,34 +59,34 @@
     - `/p/:portfolioId` - Public portfolio view
     - _Requirements: 1.1, 2.1, 6.2, 8.1, 8.2, 10.1, 11.1_
 
-- [ ] 4. Build user profile management
-  - [ ] 4.1 Implement profile service and controller
+- [x] 4. Build user profile management
+  - [x] 4.1 Implement profile service and controller
     - Create profile update endpoints
     - Add avatar upload handling with Firebase Storage
     - Implement image optimization for avatars
     - _Requirements: 3.1, 3.2, 3.3, 3.4_
-  - [ ] 4.2 Create React profile management components
+  - [x] 4.2 Create React profile management components
     - Build profile settings form with validation
     - Implement avatar upload with preview
     - Add profile display components
     - _Requirements: 3.1, 3.2, 3.3, 3.4_
 
-- [ ] 5. Implement media file management system
-  - [ ] 5.1 Create MediaFile entity and service
+- [x] 5. Implement media file management system
+  - [x] 5.1 Create MediaFile entity and service
     - Define MediaFile entity with metadata storage
     - Set up database migrations for media_files table
     - _Requirements: 4.4, 5.1_
-  - [ ] 5.2 Build media upload service with Firebase Storage
+  - [x] 5.2 Build media upload service with Firebase Storage
     - Implement file upload to Firebase Storage
     - Add image optimization with Sharp (multiple sizes)
     - Create media file metadata extraction
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
-  - [ ] 5.3 Create media management endpoints
+  - [x] 5.3 Create media management endpoints
     - Build upload, delete, and retrieve endpoints
     - Add project details management for media files
     - Implement media file listing with pagination
     - _Requirements: 4.1, 4.4, 4.5, 5.1, 5.2, 5.4_
-  - [ ] 5.4 Build React media upload components
+  - [x] 5.4 Build React media upload components
     - Create drag-and-drop file upload interface
     - Add project details form (title, description, tags, year)
     - Implement media gallery view with project info

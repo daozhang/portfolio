@@ -7,6 +7,8 @@ export interface User {
   bio?: string;
   avatar?: string;
   role: 'artist' | 'admin';
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface AuthContextType {
@@ -14,6 +16,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  updateUser: (user: User) => void;
   isAuthenticated: boolean;
   isAdmin: boolean;
 }
@@ -75,11 +78,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem('authToken');
   };
 
+  const updateUser = (updatedUser: User) => {
+    setUser(updatedUser);
+  };
+
   const value: AuthContextType = {
     user,
     isLoading,
     login,
     logout,
+    updateUser,
     isAuthenticated: !!user,
     isAdmin: user?.role === 'admin'
   };

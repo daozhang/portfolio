@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useProfile } from '../hooks/useProfile';
+import { AvatarUpload } from '../components/AvatarUpload';
+import { ProfileForm } from '../components/ProfileForm';
 
 const Container = styled.div`
   padding: 2rem;
@@ -26,7 +29,7 @@ const Subtitle = styled.p`
 const ProfileCard = styled.div`
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: ${props => props.theme.shadows.md};
   padding: 2rem;
   margin-bottom: 2rem;
 `;
@@ -36,42 +39,13 @@ const AvatarSection = styled.div`
   align-items: center;
   gap: 2rem;
   margin-bottom: 2rem;
-`;
-
-const AvatarContainer = styled.div`
-  position: relative;
-`;
-
-const Avatar = styled.div`
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
-`;
-
-const AvatarUpload = styled.button`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: ${props => props.theme.colors.primary};
-  color: white;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid ${props => props.theme.colors.border};
   
-  &:hover {
-    background: ${props => props.theme.colors.primaryHover};
+  @media (max-width: ${props => props.theme.breakpoints.tablet}) {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
   }
 `;
 
@@ -89,6 +63,7 @@ const UserName = styled.h2`
 const UserEmail = styled.p`
   color: ${props => props.theme.colors.textSecondary};
   margin-bottom: 1rem;
+  font-size: 1rem;
 `;
 
 const UserRole = styled.span`
@@ -102,86 +77,114 @@ const UserRole = styled.span`
   text-transform: capitalize;
 `;
 
-const Form = styled.form`
+const LoadingContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
 `;
 
-const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-const Label = styled.label`
-  font-weight: 500;
-  color: ${props => props.theme.colors.text};
-`;
-
-const Input = styled.input`
-  padding: 0.75rem;
-  border: 2px solid ${props => props.theme.colors.border};
-  border-radius: 6px;
-  font-size: 1rem;
+const LoadingSpinner = styled.div`
+  width: 40px;
+  height: 40px;
+  border: 4px solid ${props => props.theme.colors.border};
+  border-top: 4px solid ${props => props.theme.colors.primary};
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
   
-  &:focus {
-    outline: none;
-    border-color: ${props => props.theme.colors.primary};
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 `;
 
-const TextArea = styled.textarea`
-  padding: 0.75rem;
-  border: 2px solid ${props => props.theme.colors.border};
-  border-radius: 6px;
-  font-size: 1rem;
-  min-height: 120px;
-  resize: vertical;
-  font-family: inherit;
-  
-  &:focus {
-    outline: none;
-    border-color: ${props => props.theme.colors.primary};
-  }
+const ErrorContainer = styled.div`
+  background: ${props => props.theme.colors.danger};
+  color: white;
+  padding: 1rem;
+  border-radius: ${props => props.theme.borderRadius.md};
+  margin-bottom: 2rem;
+  text-align: center;
 `;
 
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-`;
-
-const Button = styled.button`
-  padding: 0.75rem 1.5rem;
-  border: 1px solid ${props => props.theme.colors.border};
+const RetryButton = styled.button`
   background: white;
-  color: ${props => props.theme.colors.text};
-  border-radius: 6px;
-  font-size: 1rem;
+  color: ${props => props.theme.colors.danger};
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: ${props => props.theme.borderRadius.md};
+  margin-top: 0.5rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  font-weight: 500;
   
   &:hover {
-    background-color: ${props => props.theme.colors.background};
-  }
-  
-  &.primary {
-    background-color: ${props => props.theme.colors.primary};
-    color: white;
-    border-color: ${props => props.theme.colors.primary};
-    
-    &:hover {
-      background-color: ${props => props.theme.colors.primaryHover};
-    }
+    background: ${props => props.theme.colors.light};
   }
 `;
 
 export const ProfilePage: React.FC = () => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Implement profile update logic
+  const {
+    profile,
+    isLoading,
+    error,
+    updateProfile,
+    uploadAvatar,
+    deleteAvatar,
+    isUploading,
+    refreshProfile,
+  } = useProfile();
+
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const handleProfileUpdate = async (data: any) => {
+    setIsUpdating(true);
+    try {
+      await updateProfile(data);
+    } finally {
+      setIsUpdating(false);
+    }
   };
+
+  const handleAvatarUpload = async (file: File) => {
+    await uploadAvatar(file);
+  };
+
+  const handleAvatarDelete = async () => {
+    await deleteAvatar();
+  };
+
+  if (isLoading) {
+    return (
+      <Container>
+        <LoadingContainer>
+          <LoadingSpinner />
+        </LoadingContainer>
+      </Container>
+    );
+  }
+
+  if (error && !profile) {
+    return (
+      <Container>
+        <ErrorContainer>
+          <div>Failed to load profile: {error}</div>
+          <RetryButton onClick={refreshProfile}>
+            Try Again
+          </RetryButton>
+        </ErrorContainer>
+      </Container>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <Container>
+        <ErrorContainer>
+          <div>Profile not found</div>
+        </ErrorContainer>
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -190,54 +193,34 @@ export const ProfilePage: React.FC = () => {
         <Subtitle>Manage your account information and preferences</Subtitle>
       </Header>
       
+      {error && (
+        <ErrorContainer>
+          {error}
+        </ErrorContainer>
+      )}
+      
       <ProfileCard>
         <AvatarSection>
-          <AvatarContainer>
-            <Avatar>JD</Avatar>
-            <AvatarUpload>📷</AvatarUpload>
-          </AvatarContainer>
+          <AvatarUpload
+            currentAvatar={profile.avatar}
+            userName={profile.name || profile.email}
+            onUpload={handleAvatarUpload}
+            onDelete={profile.avatar ? handleAvatarDelete : undefined}
+            isUploading={isUploading}
+            size={120}
+          />
           <UserInfo>
-            <UserName>John Doe</UserName>
-            <UserEmail>john.doe@example.com</UserEmail>
-            <UserRole>artist</UserRole>
+            <UserName>{profile.name || 'No name set'}</UserName>
+            <UserEmail>{profile.email}</UserEmail>
+            <UserRole>{profile.role}</UserRole>
           </UserInfo>
         </AvatarSection>
         
-        <Form onSubmit={handleSubmit}>
-          <FormGroup>
-            <Label htmlFor="name">Full Name</Label>
-            <Input
-              id="name"
-              type="text"
-              placeholder="Enter your full name"
-              defaultValue="John Doe"
-            />
-          </FormGroup>
-          
-          <FormGroup>
-            <Label htmlFor="bio">Bio</Label>
-            <TextArea
-              id="bio"
-              placeholder="Tell us about yourself and your work..."
-              defaultValue=""
-            />
-          </FormGroup>
-          
-          <FormGroup>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              defaultValue="john.doe@example.com"
-            />
-          </FormGroup>
-          
-          <ButtonGroup>
-            <Button type="button">Cancel</Button>
-            <Button type="submit" className="primary">Save Changes</Button>
-          </ButtonGroup>
-        </Form>
+        <ProfileForm
+          profile={profile}
+          onSubmit={handleProfileUpdate}
+          isLoading={isUpdating}
+        />
       </ProfileCard>
     </Container>
   );

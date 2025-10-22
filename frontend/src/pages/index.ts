@@ -8,3 +8,4 @@ export { AdminPanelPage } from './AdminPanelPage';
 export { AdminInvitesPage } from './AdminInvitesPage';
 export { AdminUsersPage } from './AdminUsersPage';
 export { PublicPortfolioPage } from './PublicPortfolioPage';
+export { default as MediaPage } from './MediaPage';
