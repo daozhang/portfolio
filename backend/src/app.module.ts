@@ -6,6 +6,8 @@ import { FirebaseConfig } from './config/firebase.config';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { MediaModule } from './modules/media/media.module';
+import { PortfolioModule } from './modules/portfolio/portfolio.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { MediaModule } from './modules/media/media.module';
     AuthModule,
     ProfileModule,
     MediaModule,
+    PortfolioModule,
+    AdminModule,
   ],
   controllers: [],
   providers: [FirebaseConfig],

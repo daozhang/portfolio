@@ -129,30 +129,30 @@
     - Add mobile/desktop viewport switching
     - _Requirements: 6.5, 8.1, 8.2_
 
-- [ ] 8. Implement portfolio and template system
-  - [ ] 8.1 Create Portfolio entity and service
+- [x] 8. Implement portfolio and template system
+  - [x] 8.1 Create Portfolio entity and service
     - Define Portfolio entity with template and blocks
     - Set up database migrations for portfolios table
     - Implement portfolio CRUD operations
     - _Requirements: 6.4, 7.3_
-  - [ ] 8.2 Build template system
+  - [x] 8.2 Build template system
     - Create template components (Gallery, About, Contact)
     - Implement template selection interface
     - Add template switching functionality
     - _Requirements: 7.1, 7.2, 7.4_
-  - [ ] 8.3 Create portfolio management endpoints
+  - [x] 8.3 Create portfolio management endpoints
     - Build portfolio creation and update APIs
     - Add portfolio publishing functionality
     - Implement public portfolio access endpoints
     - _Requirements: 6.4, 8.3, 8.4_
 
-- [ ] 9. Build admin panel for invite code management
-  - [ ] 9.1 Create admin service and controllers
+- [x] 9. Build admin panel for invite code management
+  - [x] 9.1 Create admin service and controllers
     - Implement admin-only endpoints with role guards
     - Add invite code generation and management APIs
     - Create user statistics and management endpoints
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 11.1, 11.2, 11.3, 11.4_
-  - [ ] 9.2 Build React admin panel components
+  - [x] 9.2 Build React admin panel components
     - Create admin dashboard with user statistics
     - Implement invite code management interface
     - Add invite code generation and deactivation features

@@ -7,6 +7,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
+import { Portfolio } from './portfolio.entity';
 
 export interface MediaFileUrls {
   original: string;
@@ -61,8 +62,7 @@ export class MediaFile {
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  // Note: Portfolio relationship will be added when Portfolio entity is created
-  // @ManyToOne(() => Portfolio, portfolio => portfolio.mediaFiles)
-  // @JoinColumn({ name: 'portfolioId' })
-  // portfolio?: Portfolio;
+  @ManyToOne(() => Portfolio, portfolio => portfolio.mediaFiles)
+  @JoinColumn({ name: 'portfolioId' })
+  portfolio?: Portfolio;
 }

@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
+import { Portfolio } from './portfolio.entity';
 
 export enum UserRole {
   ARTIST = 'artist',
@@ -45,7 +46,6 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // Note: Portfolio and other relationships will be added when those entities are created
-  // @OneToMany(() => Portfolio, portfolio => portfolio.user)
-  // portfolios: Portfolio[];
+  @OneToMany(() => Portfolio, portfolio => portfolio.user)
+  portfolios: Portfolio[];
 }
