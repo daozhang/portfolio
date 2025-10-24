@@ -138,6 +138,36 @@ export type BlockData =
 // Template types
 export type TemplateType = 'gallery' | 'about' | 'contact';
 
+// User interface (simplified for portfolio display)
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  bio?: string;
+}
+
+// Media file interface
+export interface MediaFile {
+  id: string;
+  urls: {
+    original: string;
+    thumbnail: string;
+    mobile: string;
+    desktop: string;
+  };
+  originalName: string;
+  projectDetails?: {
+    title?: string;
+    description?: string;
+  };
+  metadata: {
+    dimensions: {
+      width: number;
+      height: number;
+    };
+  };
+}
+
 // Portfolio interface
 export interface Portfolio {
   id: string;
@@ -150,4 +180,6 @@ export interface Portfolio {
   publicUrl?: string;
   createdAt: Date;
   updatedAt: Date;
+  user?: User;
+  mediaFiles?: MediaFile[];
 }

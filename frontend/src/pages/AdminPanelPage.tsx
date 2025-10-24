@@ -37,7 +37,7 @@ const NavItem = styled.li<{ active: boolean }>`
 const NavButton = styled.button<{ active: boolean }>`
   width: 100%;
   padding: 1rem 1.5rem;
-  background: ${props => props.active ? props.theme.colors.primary + '20' : 'transparent'};
+  background: ${props => props.active ? '#007bff20' : 'transparent'};
   color: ${props => props.active ? props.theme.colors.primary : props.theme.colors.text};
   border: none;
   text-align: left;

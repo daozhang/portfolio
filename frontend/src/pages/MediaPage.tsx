@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Layout, MediaManager } from '../components';
+import { Layout } from '../components/Layout';
+import { MediaManager } from '../components/MediaManager';
 import { MediaFile } from '../services/mediaService';
 
 const Container = styled.div`

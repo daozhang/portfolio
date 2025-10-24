@@ -81,7 +81,7 @@ const Input = styled.input`
   &:focus {
     outline: none;
     border-color: ${props => props.theme.colors.primary};
-    box-shadow: 0 0 0 2px ${props => props.theme.colors.primary}20;
+    box-shadow: 0 0 0 2px #007bff20;
   }
 `;
 
@@ -97,7 +97,7 @@ const TextArea = styled.textarea`
   &:focus {
     outline: none;
     border-color: ${props => props.theme.colors.primary};
-    box-shadow: 0 0 0 2px ${props => props.theme.colors.primary}20;
+    box-shadow: 0 0 0 2px #007bff20;
   }
 `;
 

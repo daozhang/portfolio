@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { Portfolio } from '../types/blocks';
+import { portfolioService } from '../services/portfolioService';
+import { PortfolioCard } from '../components/PortfolioCard';
 
 const Container = styled.div`
   padding: 2rem;
@@ -9,7 +13,7 @@ const Container = styled.div`
 
 const Header = styled.div`
   display: flex;
-  justify-content: between;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
 `;
@@ -38,77 +42,13 @@ const CreateButton = styled.button`
 
 const PortfolioGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
-`;
-
-const PortfolioCard = styled.div`
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.2s ease;
   
-  &:hover {
-    transform: translateY(-4px);
-  }
-`;
-
-const CardImage = styled.div`
-  height: 200px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.2rem;
-`;
-
-const CardContent = styled.div`
-  padding: 1.5rem;
-`;
-
-const CardTitle = styled.h3`
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: ${props => props.theme.colors.text};
-`;
-
-const CardMeta = styled.p`
-  color: ${props => props.theme.colors.textSecondary};
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-`;
-
-const CardActions = styled.div`
-  display: flex;
-  gap: 0.5rem;
-`;
-
-const ActionButton = styled.button`
-  padding: 0.5rem 1rem;
-  border: 1px solid ${props => props.theme.colors.border};
-  background: white;
-  color: ${props => props.theme.colors.text};
-  border-radius: 4px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background-color: ${props => props.theme.colors.background};
-  }
-  
-  &.primary {
-    background-color: ${props => props.theme.colors.primary};
-    color: white;
-    border-color: ${props => props.theme.colors.primary};
-    
-    &:hover {
-      background-color: ${props => props.theme.colors.primaryHover};
-    }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 `;
 
@@ -118,15 +58,94 @@ const EmptyState = styled.div`
   color: ${props => props.theme.colors.textSecondary};
 `;
 
+const LoadingState = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  color: ${props => props.theme.colors.textSecondary};
+`;
+
+const ErrorState = styled.div`
+  text-align: center;
+  padding: 4rem 2rem;
+  color: ${props => props.theme.colors.danger};
+`;
+
 export const DashboardPage: React.FC = () => {
-  // Mock data - will be replaced with real data
-  const portfolios: any[] = [];
+  const navigate = useNavigate();
+  const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchPortfolios();
+  }, []);
+
+  const fetchPortfolios = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const data = await portfolioService.getUserPortfolios();
+      setPortfolios(data);
+    } catch (err) {
+      console.error('Error fetching portfolios:', err);
+      setError('Failed to load portfolios. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCreatePortfolio = async () => {
+    try {
+      const newPortfolio = await portfolioService.createPortfolio({
+        title: 'Untitled Portfolio',
+        template: 'gallery',
+      });
+      navigate(`/portfolio/${newPortfolio.id}/edit`);
+    } catch (err) {
+      console.error('Error creating portfolio:', err);
+      alert('Failed to create portfolio. Please try again.');
+    }
+  };
+
+  const handlePortfolioUpdate = (updatedPortfolio: Portfolio) => {
+    setPortfolios(prev => 
+      prev.map(p => p.id === updatedPortfolio.id ? updatedPortfolio : p)
+    );
+  };
+
+  const handlePortfolioDelete = (portfolioId: string) => {
+    setPortfolios(prev => prev.filter(p => p.id !== portfolioId));
+  };
+
+  if (isLoading) {
+    return (
+      <Container>
+        <LoadingState>Loading your portfolios...</LoadingState>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container>
+        <ErrorState>
+          <h3>Error</h3>
+          <p>{error}</p>
+          <CreateButton onClick={fetchPortfolios}>Try Again</CreateButton>
+        </ErrorState>
+      </Container>
+    );
+  }
 
   return (
     <Container>
       <Header>
         <Title>My Portfolios</Title>
-        <CreateButton>Create New Portfolio</CreateButton>
+        <CreateButton onClick={handleCreatePortfolio}>
+          Create New Portfolio
+        </CreateButton>
       </Header>
       
       {portfolios.length === 0 ? (
@@ -136,22 +155,13 @@ export const DashboardPage: React.FC = () => {
         </EmptyState>
       ) : (
         <PortfolioGrid>
-          {portfolios.map((portfolio: any) => (
-            <PortfolioCard key={portfolio.id}>
-              <CardImage>Portfolio Preview</CardImage>
-              <CardContent>
-                <CardTitle>{portfolio.title}</CardTitle>
-                <CardMeta>
-                  {portfolio.isPublished ? 'Published' : 'Draft'} • 
-                  Updated {new Date(portfolio.updatedAt).toLocaleDateString()}
-                </CardMeta>
-                <CardActions>
-                  <ActionButton className="primary">Edit</ActionButton>
-                  <ActionButton>Preview</ActionButton>
-                  <ActionButton>Share</ActionButton>
-                </CardActions>
-              </CardContent>
-            </PortfolioCard>
+          {portfolios.map((portfolio) => (
+            <PortfolioCard 
+              key={portfolio.id}
+              portfolio={portfolio}
+              onUpdate={handlePortfolioUpdate}
+              onDelete={handlePortfolioDelete}
+            />
           ))}
         </PortfolioGrid>
       )}

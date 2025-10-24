@@ -1,15 +1,13 @@
 import React from 'react';
 import { Block } from '../types/blocks';
-import {
-  TitleBlock,
-  RichTextBlock,
-  ListBlock,
-  ImagesBlock,
-  ResumeBlock,
-  CarouselBlock,
-  DividerBlock,
-  LinkBlock
-} from './blocks';
+import { TitleBlock } from './blocks/TitleBlock';
+import { RichTextBlock } from './blocks/RichTextBlock';
+import { ListBlock } from './blocks/ListBlock';
+import { ImagesBlock } from './blocks/ImagesBlock';
+import { ResumeBlock } from './blocks/ResumeBlock';
+import { CarouselBlock } from './blocks/CarouselBlock';
+import { DividerBlock } from './blocks/DividerBlock';
+import { LinkBlock } from './blocks/LinkBlock';
 
 interface BlockRendererProps {
   block: Block;

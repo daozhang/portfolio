@@ -130,6 +130,12 @@ export class PortfolioService {
       throw new NotFoundException('Portfolio not found or not published');
     }
 
+    // Remove sensitive user information for public access
+    if (portfolio.user) {
+      const { passwordHash, ...safeUser } = portfolio.user;
+      portfolio.user = safeUser as any;
+    }
+
     return portfolio;
   }
 
@@ -141,6 +147,12 @@ export class PortfolioService {
 
     if (!portfolio) {
       throw new NotFoundException('Portfolio not found or not published');
+    }
+
+    // Remove sensitive user information for public access
+    if (portfolio.user) {
+      const { passwordHash, ...safeUser } = portfolio.user;
+      portfolio.user = safeUser as any;
     }
 
     return portfolio;

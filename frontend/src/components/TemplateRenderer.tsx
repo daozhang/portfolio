@@ -1,6 +1,8 @@
 import React from 'react';
 import { TemplateType, Block } from '../types/blocks';
-import { GalleryTemplate, AboutTemplate, ContactTemplate } from './templates';
+import { GalleryTemplate } from './templates/GalleryTemplate';
+import { AboutTemplate } from './templates/AboutTemplate';
+import { ContactTemplate } from './templates/ContactTemplate';
 
 interface TemplateRendererProps {
   template: TemplateType;

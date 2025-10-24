@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { usePortfolioBuilder } from '../contexts/PortfolioBuilderContext';
@@ -6,6 +6,7 @@ import { DraggableBlockPalette, DraggableBlockInstance, DropZone } from './dnd';
 import { BlockRenderer } from './BlockRenderer';
 import { ViewportSwitcher } from './ViewportSwitcher';
 import { PreviewCanvas } from './PreviewCanvas';
+import { PortfolioPublishModal } from './PortfolioPublishModal';
 import { BlockType, Portfolio } from '../types/blocks';
 import { DragItem, DND_ITEM_TYPES } from '../types/dnd';
 
@@ -156,6 +157,7 @@ const EmptyStateText = styled.p`
 export const PortfolioBuilder: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { state, actions } = usePortfolioBuilder();
+  const [showPublishModal, setShowPublishModal] = useState(false);
 
   // Mock portfolio data for now - this will be replaced with API call
   useEffect(() => {
@@ -228,8 +230,19 @@ export const PortfolioBuilder: React.FC = () => {
   };
 
   const handlePublish = () => {
-    // TODO: Implement publish functionality
-    console.log('Publishing portfolio...', state.portfolio);
+    setShowPublishModal(true);
+  };
+
+  const handlePublishChange = (isPublished: boolean, publicUrl?: string) => {
+    if (state.portfolio) {
+      const updatedPortfolio = {
+        ...state.portfolio,
+        isPublished,
+        publicUrl: publicUrl || state.portfolio.publicUrl,
+      };
+      actions.setPortfolio(updatedPortfolio);
+    }
+    setShowPublishModal(false);
   };
 
   if (!state.portfolio) {
@@ -260,7 +273,7 @@ export const PortfolioBuilder: React.FC = () => {
             Save Draft
           </Button>
           <Button variant="primary" onClick={handlePublish}>
-            Publish
+            {state.portfolio.isPublished ? 'Manage Publishing' : 'Publish'}
           </Button>
         </HeaderActions>
       </Header>
@@ -337,6 +350,13 @@ export const PortfolioBuilder: React.FC = () => {
           )}
         </Canvas>
       </EditorContainer>
+      
+      <PortfolioPublishModal
+        portfolio={state.portfolio}
+        isOpen={showPublishModal}
+        onClose={() => setShowPublishModal(false)}
+        onPublishChange={handlePublishChange}
+      />
     </Container>
   );
 };

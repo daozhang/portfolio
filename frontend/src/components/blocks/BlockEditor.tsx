@@ -1,13 +1,20 @@
 import React from 'react';
 import {
   Block,
-  validateBlock,
   TitleData,
   RichTextData,
   ListData,
   LinkData,
   DividerData
-} from '../../types';
+} from '../../types/blocks';
+// Simple validation function to avoid circular dependencies
+const validateBlock = (block: Block) => {
+  const errors: string[] = [];
+  if (!block.id || block.id.trim().length === 0) {
+    errors.push('Block ID is required');
+  }
+  return { isValid: errors.length === 0, errors };
+};
 import {
   TitleBlockEditor,
   RichTextBlockEditor,

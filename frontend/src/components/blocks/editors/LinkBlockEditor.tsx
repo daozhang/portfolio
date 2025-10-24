@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { LinkData, validateLinkData } from '../../../types';
+import { LinkData } from '../../../types/blocks';
+
+// Simple validation function to avoid circular dependencies
+const validateLinkData = (data: LinkData) => {
+  const errors: string[] = [];
+  if (!data.text || data.text.trim().length === 0) {
+    errors.push('Link text is required');
+  }
+  if (!data.url || data.url.trim().length === 0) {
+    errors.push('Link URL is required');
+  }
+  return { isValid: errors.length === 0, errors };
+};
 
 interface LinkBlockEditorProps {
   data: LinkData;
@@ -61,7 +73,7 @@ const Input = styled.input<{ hasError?: boolean }>`
   &:focus {
     outline: none;
     border-color: ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary};
-    box-shadow: 0 0 0 2px ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary}20;
+    box-shadow: 0 0 0 2px ${props => props.hasError ? props.theme.colors.danger : '#007bff20'};
   }
 `;
 

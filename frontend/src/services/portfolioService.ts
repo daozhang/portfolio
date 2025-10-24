@@ -1,6 +1,6 @@
 import { Portfolio, Block, TemplateType } from '../types/blocks';
 
-const API_BASE_URL = (import.meta as any).env?.VITE_API_URL || 'http://localhost:3001';
+const API_BASE_URL = 'http://localhost:3001';
 
 export interface CreatePortfolioRequest {
   title: string;

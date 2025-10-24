@@ -90,10 +90,10 @@ const StatusBadge = styled.span<{ status: 'active' | 'used' | 'inactive' }>`
   text-transform: uppercase;
   background: ${props => {
     switch (props.status) {
-      case 'active': return props.theme.colors.primary + '20';
-      case 'used': return props.theme.colors.success + '20';
-      case 'inactive': return props.theme.colors.danger + '20';
-      default: return props.theme.colors.textSecondary + '20';
+      case 'active': return '#007bff20';
+      case 'used': return '#28a74520';
+      case 'inactive': return '#dc354520';
+      default: return '#6c757d20';
     }
   }};
   color: ${props => {
@@ -136,7 +136,7 @@ const LoadingSpinner = styled.div`
 `;
 
 const ErrorMessage = styled.div`
-  background: ${props => props.theme.colors.danger + '20'};
+  background: #dc354520;
   color: ${props => props.theme.colors.danger};
   padding: 1rem;
   border-radius: 6px;
@@ -144,7 +144,7 @@ const ErrorMessage = styled.div`
 `;
 
 const SuccessMessage = styled.div`
-  background: ${props => props.theme.colors.success + '20'};
+  background: #28a74520;
   color: ${props => props.theme.colors.success};
   padding: 1rem;
   border-radius: 6px;

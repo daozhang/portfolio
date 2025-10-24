@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ListData, validateListData } from '../../../types';
+import { ListData } from '../../../types/blocks';
+
+// Simple validation function to avoid circular dependencies
+const validateListData = (data: ListData) => {
+  const errors: string[] = [];
+  if (!data.items || data.items.length === 0) {
+    errors.push('List must have at least one item');
+  }
+  return { isValid: errors.length === 0, errors };
+};
 
 interface ListBlockEditorProps {
   data: ListData;
@@ -86,7 +95,7 @@ const ItemInput = styled.input<{ hasError?: boolean }>`
   &:focus {
     outline: none;
     border-color: ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary};
-    box-shadow: 0 0 0 2px ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary}20;
+    box-shadow: 0 0 0 2px ${props => props.hasError ? props.theme.colors.danger : '#007bff20'};
   }
 `;
 

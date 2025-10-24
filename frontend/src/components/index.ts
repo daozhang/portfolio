@@ -1,3 +1,4 @@
+// Core components - individual exports to avoid circular dependencies
 export { ProtectedRoute } from './ProtectedRoute';
 export { Navigation } from './Navigation';
 export { Breadcrumb } from './Breadcrumb';
@@ -8,16 +9,23 @@ export { MediaUpload } from './MediaUpload';
 export { MediaGallery } from './MediaGallery';
 export { MediaManager } from './MediaManager';
 
-// Block components
-export * from './blocks';
-export { BlockEditor } from './blocks/BlockEditor';
+// Error handling components
+export { default as ErrorBoundary } from './ErrorBoundary';
+export { ToastProvider, useToast } from './Toast';
 
-// Template components
+// Template and rendering components
 export { TemplateRenderer } from './TemplateRenderer';
 export { TemplateSelector } from './TemplateSelector';
-export * from './templates';
+export { BlockRenderer } from './BlockRenderer';
 
 // Admin components
 export { AdminDashboard } from './AdminDashboard';
 export { InviteCodeManager } from './InviteCodeManager';
 export { UserManager } from './UserManager';
+
+// Portfolio components
+export { PortfolioBuilder } from './PortfolioBuilder';
+export { PortfolioCard } from './PortfolioCard';
+export { PortfolioPublishModal } from './PortfolioPublishModal';
+export { PreviewCanvas } from './PreviewCanvas';
+export { ViewportSwitcher } from './ViewportSwitcher';

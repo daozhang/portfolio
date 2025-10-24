@@ -2,6 +2,7 @@ export const theme = {
   colors: {
     primary: '#007bff',
     primaryHover: '#0056b3',
+    primaryDark: '#004085',
     secondary: '#6c757d',
     success: '#28a745',
     danger: '#dc3545',
@@ -10,10 +11,12 @@ export const theme = {
     light: '#f8f9fa',
     dark: '#343a40',
     background: '#f8f9fa',
+    surface: '#ffffff',
     text: '#212529',
     textSecondary: '#6c757d',
     textMuted: '#6c757d',
     border: '#dee2e6',
+    error: '#dc3545',
   },
   breakpoints: {
     mobile: '576px',

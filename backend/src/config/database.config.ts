@@ -8,6 +8,8 @@ export class DatabaseConfig implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
+    const isProduction = this.configService.get('NODE_ENV') === 'production';
+    
     return {
       type: 'postgres',
       host: this.configService.get('DATABASE_HOST'),
@@ -19,11 +21,19 @@ export class DatabaseConfig implements TypeOrmOptionsFactory {
       migrations: [__dirname + '/../migrations/*{.ts,.js}'],
       synchronize: this.configService.get('NODE_ENV') === 'development',
       logging: this.configService.get('NODE_ENV') === 'development',
+      ssl: isProduction ? { rejectUnauthorized: false } : false,
+      extra: isProduction ? {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      } : {},
     };
   }
 }
 
 // Export DataSource for migrations
+const isProduction = process.env.NODE_ENV === 'production';
+
 const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
   host: process.env.DATABASE_HOST || 'localhost',
@@ -34,6 +44,12 @@ const dataSourceOptions: DataSourceOptions = {
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/../migrations/*{.ts,.js}'],
   synchronize: false,
+  ssl: isProduction ? { rejectUnauthorized: false } : false,
+  extra: isProduction ? {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  } : {},
 };
 
 export const AppDataSource = new DataSource(dataSourceOptions);

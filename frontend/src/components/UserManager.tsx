@@ -220,7 +220,7 @@ const LoadingSpinner = styled.div`
 `;
 
 const ErrorMessage = styled.div`
-  background: ${props => props.theme.colors.error + '20'};
+  background: #dc354520;
   color: ${props => props.theme.colors.error};
   padding: 1rem;
   border-radius: 6px;
@@ -228,7 +228,7 @@ const ErrorMessage = styled.div`
 `;
 
 const SuccessMessage = styled.div`
-  background: ${props => props.theme.colors.success + '20'};
+  background: #28a74520;
   color: ${props => props.theme.colors.success};
   padding: 1rem;
   border-radius: 6px;
@@ -279,7 +279,7 @@ export const UserManager: React.FC = () => {
 
   const handleCreateAdmin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       setCreating(true);
       setError(null);
@@ -339,7 +339,7 @@ export const UserManager: React.FC = () => {
               <UserEmail>{user.email}</UserEmail>
               {user.name && <UserName>{user.name}</UserName>}
             </UserInfo>
-            
+
             <RoleSelect
               value={user.role}
               onChange={(e) => handleRoleChange(user.id, e.target.value as 'artist' | 'admin')}
@@ -347,11 +347,11 @@ export const UserManager: React.FC = () => {
               <option value="artist">Artist</option>
               <option value="admin">Admin</option>
             </RoleSelect>
-            
+
             <PortfolioCount>{user.portfolioCount}</PortfolioCount>
-            
+
             <JoinDate>{formatDate(user.createdAt)}</JoinDate>
-            
+
             <div>
               {/* Future actions like delete, suspend, etc. */}
             </div>
@@ -362,7 +362,7 @@ export const UserManager: React.FC = () => {
       <Modal isOpen={showCreateModal}>
         <ModalContent>
           <ModalTitle>Create Admin User</ModalTitle>
-          
+
           <Form onSubmit={handleCreateAdmin}>
             <FormGroup>
               <Label htmlFor="email">Email</Label>
@@ -374,7 +374,7 @@ export const UserManager: React.FC = () => {
                 required
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label htmlFor="name">Name</Label>
               <Input
@@ -385,7 +385,7 @@ export const UserManager: React.FC = () => {
                 required
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label htmlFor="password">Password</Label>
               <Input
@@ -397,17 +397,17 @@ export const UserManager: React.FC = () => {
                 required
               />
             </FormGroup>
-            
+
             <ButtonGroup>
-              <Button 
-                type="button" 
+              <Button
+                type="button"
                 variant="secondary"
                 onClick={() => setShowCreateModal(false)}
               >
                 Cancel
               </Button>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 variant="primary"
                 disabled={creating}
               >

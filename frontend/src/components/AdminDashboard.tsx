@@ -96,8 +96,8 @@ const RoleBadge = styled.span<{ role: string }>`
   font-weight: 500;
   text-transform: uppercase;
   background: ${props => props.role === 'admin'
-    ? props.theme.colors.danger + '20'
-    : props.theme.colors.primary + '20'};
+    ? '#dc354520'
+    : '#007bff20'};
   color: ${props => props.role === 'admin'
     ? props.theme.colors.danger
     : props.theme.colors.primary};
@@ -112,8 +112,8 @@ const LoadingSpinner = styled.div`
 `;
 
 const ErrorMessage = styled.div`
-  background: ${props => props.theme.colors.danger + '20'};
-  color: ${props => props.theme.colors.danger};
+  background: #dc354520;
+  color: #dc3545;
   padding: 1rem;
   border-radius: 6px;
   margin-bottom: 1rem;

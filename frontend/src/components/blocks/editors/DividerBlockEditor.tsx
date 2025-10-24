@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { DividerData, validateDividerData } from '../../../types';
+import { DividerData } from '../../../types/blocks';
+
+// Simple validation function to avoid circular dependencies
+const validateDividerData = (data: DividerData) => {
+  const errors: string[] = [];
+  if (!['solid', 'dashed', 'dotted'].includes(data.style)) {
+    errors.push('Divider style must be solid, dashed, or dotted');
+  }
+  return { isValid: errors.length === 0, errors };
+};
 
 interface DividerBlockEditorProps {
   data: DividerData;
@@ -73,7 +82,7 @@ const Select = styled.select<{ hasError?: boolean }>`
   &:focus {
     outline: none;
     border-color: ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary};
-    box-shadow: 0 0 0 2px ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary}20;
+    box-shadow: 0 0 0 2px ${props => props.hasError ? props.theme.colors.danger : '#007bff20'};
   }
 `;
 
@@ -159,7 +168,7 @@ const ColorTextInput = styled.input<{ hasError?: boolean }>`
   &:focus {
     outline: none;
     border-color: ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary};
-    box-shadow: 0 0 0 2px ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary}20;
+    box-shadow: 0 0 0 2px ${props => props.hasError ? props.theme.colors.danger : '#007bff20'};
   }
 `;
 

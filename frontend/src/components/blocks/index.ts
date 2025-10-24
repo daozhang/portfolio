@@ -1,5 +1,4 @@
 // Export all block components
-
 export { TitleBlock } from './TitleBlock';
 export { RichTextBlock } from './RichTextBlock';
 export { ListBlock } from './ListBlock';

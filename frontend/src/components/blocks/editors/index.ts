@@ -1,5 +1,4 @@
 // Export all block editors
-
 export { TitleBlockEditor } from './TitleBlockEditor';
 export { RichTextBlockEditor } from './RichTextBlockEditor';
 export { ListBlockEditor } from './ListBlockEditor';

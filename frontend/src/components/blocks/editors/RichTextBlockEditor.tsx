@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { RichTextData, validateRichTextData } from '../../../types';
+import { RichTextData } from '../../../types/blocks';
+
+// Simple validation function to avoid circular dependencies
+const validateRichTextData = (data: RichTextData) => {
+  const errors: string[] = [];
+  if (!data.content || data.content.trim().length === 0) {
+    errors.push('Rich text content is required');
+  }
+  return { isValid: errors.length === 0, errors };
+};
 
 interface RichTextBlockEditorProps {
   data: RichTextData;
@@ -83,7 +92,7 @@ const TextArea = styled.textarea<{ hasError?: boolean }>`
   &:focus {
     outline: none;
     border-color: ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary};
-    box-shadow: 0 0 0 2px ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary}20;
+    box-shadow: 0 0 0 2px ${props => props.hasError ? props.theme.colors.danger : '#007bff20'};
   }
 `;
 

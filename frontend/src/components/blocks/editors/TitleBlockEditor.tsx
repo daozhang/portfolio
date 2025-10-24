@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { TitleData, validateTitleData } from '../../../types';
+import { TitleData } from '../../../types/blocks';
+
+// Simple validation function to avoid circular dependencies
+const validateTitleData = (data: TitleData) => {
+  const errors: string[] = [];
+  if (!data.text || data.text.trim().length === 0) {
+    errors.push('Title text is required');
+  }
+  return { isValid: errors.length === 0, errors };
+};
 
 interface TitleBlockEditorProps {
   data: TitleData;
@@ -61,7 +70,7 @@ const Input = styled.input<{ hasError?: boolean }>`
   &:focus {
     outline: none;
     border-color: ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary};
-    box-shadow: 0 0 0 2px ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary}20;
+    box-shadow: 0 0 0 2px ${props => props.hasError ? '#dc354520' : '#007bff20'};
   }
 `;
 
@@ -77,7 +86,7 @@ const Select = styled.select<{ hasError?: boolean }>`
   &:focus {
     outline: none;
     border-color: ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary};
-    box-shadow: 0 0 0 2px ${props => props.hasError ? props.theme.colors.danger : props.theme.colors.primary}20;
+    box-shadow: 0 0 0 2px ${props => props.hasError ? '#dc354520' : '#007bff20'};
   }
 `;
 

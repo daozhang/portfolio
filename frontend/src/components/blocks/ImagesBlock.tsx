@@ -1,27 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ImagesData } from '../../types/blocks';
-
-interface MediaFile {
-  id: string;
-  urls: {
-    original: string;
-    thumbnail: string;
-    mobile: string;
-    desktop: string;
-  };
-  originalName: string;
-  projectDetails?: {
-    title?: string;
-    description?: string;
-  };
-  metadata: {
-    dimensions: {
-      width: number;
-      height: number;
-    };
-  };
-}
+import { ImagesData, MediaFile } from '../../types/blocks';
+import { getOptimizedImageUrl } from '../../utils/performanceUtils';
 
 interface ImagesBlockProps {
   data: ImagesData;
@@ -82,12 +62,13 @@ const ImageWrapper = styled.div<{ layout: string }>`
   }
 `;
 
-const Image = styled.img<{ layout: string }>`
+const Image = styled.img<{ layout: string; loaded?: boolean }>`
   width: 100%;
   height: ${props => props.layout === 'grid' ? '250px' : 'auto'};
   object-fit: ${props => props.layout === 'grid' ? 'cover' : 'contain'};
   display: block;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: ${props => props.loaded ? 1 : 0};
   
   ${props => props.layout === 'single' && `
     max-height: 600px;
@@ -95,6 +76,15 @@ const Image = styled.img<{ layout: string }>`
   
   &:hover {
     transform: scale(1.02);
+  }
+  
+  /* Optimize for mobile */
+  @media (max-width: 768px) {
+    height: ${props => props.layout === 'grid' ? '200px' : 'auto'};
+    
+    &:hover {
+      transform: none; /* Disable hover effects on mobile */
+    }
   }
 `;
 
@@ -160,6 +150,7 @@ export const ImagesBlock: React.FC<ImagesBlockProps> = ({
   mediaFiles = [] 
 }) => {
   const [images, setImages] = useState<MediaFile[]>([]);
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     // Filter media files based on the IDs in data.mediaFileIds
@@ -174,6 +165,10 @@ export const ImagesBlock: React.FC<ImagesBlockProps> = ({
     
     setImages(sortedImages);
   }, [data.mediaFileIds, mediaFiles]);
+
+  const handleImageLoad = (imageId: string) => {
+    setLoadedImages(prev => new Set([...prev, imageId]));
+  };
 
   if (data.mediaFileIds.length === 0) {
     return (
@@ -198,28 +193,35 @@ export const ImagesBlock: React.FC<ImagesBlockProps> = ({
   }
 
   const renderImages = () => {
-    const imageElements = images.map((image) => (
-      <ImageWrapper key={image.id} layout={data.layout}>
-        <Image
-          src={image.urls.desktop}
-          alt={image.projectDetails?.title || image.originalName}
-          layout={data.layout}
-          loading="lazy"
-        />
-        {(image.projectDetails?.title || image.projectDetails?.description) && (
-          <ImageOverlay className="image-overlay">
-            <ImageInfo>
-              {image.projectDetails?.title && (
-                <ImageTitle>{image.projectDetails.title}</ImageTitle>
-              )}
-              {image.projectDetails?.description && (
-                <ImageDescription>{image.projectDetails.description}</ImageDescription>
-              )}
-            </ImageInfo>
-          </ImageOverlay>
-        )}
-      </ImageWrapper>
-    ));
+    const imageElements = images.map((image) => {
+      const optimizedSrc = getOptimizedImageUrl(image.urls, 'desktop');
+      const isLoaded = loadedImages.has(image.id);
+      
+      return (
+        <ImageWrapper key={image.id} layout={data.layout}>
+          <Image
+            src={optimizedSrc}
+            alt={image.projectDetails?.title || image.originalName}
+            layout={data.layout}
+            loaded={isLoaded}
+            loading="lazy"
+            onLoad={() => handleImageLoad(image.id)}
+          />
+          {(image.projectDetails?.title || image.projectDetails?.description) && (
+            <ImageOverlay className="image-overlay">
+              <ImageInfo>
+                {image.projectDetails?.title && (
+                  <ImageTitle>{image.projectDetails.title}</ImageTitle>
+                )}
+                {image.projectDetails?.description && (
+                  <ImageDescription>{image.projectDetails.description}</ImageDescription>
+                )}
+              </ImageInfo>
+            </ImageOverlay>
+          )}
+        </ImageWrapper>
+      );
+    });
 
     switch (data.layout) {
       case 'grid':
